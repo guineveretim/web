@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information</title>
+    <link rel="stylesheet" href="{% static 'application/personal.css' %}">  
+    <style>
+        body {
+            background-color: rgba(128, 0, 32, 0.1);
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            font-family: 'Arial', sans-serif; 
+            color: #333; 
+        }
+        .form-group {
+            margin-bottom: 15px; /* spacing between form fields */
+        }
+        .alert-danger {
+            color: #ff0000; /* style your error messages */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Personal Information</h2>
+        <form method="post" action="{% url 'authentication:application_view' %}?step=2">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }} 
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Next</button>
+                {% if step|add:"-1" > 0 %}
+                    <a href="?step={{ step|add:"-1" }}" class="btn btn-secondary">Previous</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>Step {{ step }}2 of 9</p>  
+    </footer>
+</body>
+</html>

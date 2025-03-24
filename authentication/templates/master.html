@@ -1,0 +1,59 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'authentication/master.css' %}">
+    <style>
+      .background-container{
+        position: relative;
+        height: 100vh;
+        background-image: url("{% static 'images/dep.jpg' %}");
+        background-size: cover;
+        animation: moveBackground 60s linear infinite;
+        
+      }
+      @keyframes moveBackground {
+    0% {
+        background-position: 0 0; 
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+      
+    </style>
+  </head>
+  <body>
+    <div class="background-container">
+      <div class="overlay"></div>     
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{% url 'authentication:application_view'%}" >Apply Now</a></li>
+          <li><a href="{% url 'authentication:track_application'%}" >Track Application</a></li>
+          <li class="button">
+            <form action="{% url 'authentication:logout' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="logout-button">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+
+    </header>
+    
+   
+      <main>
+        {% block body %}
+        {% endblock %}
+      </main>
+    
+
+    <footer>
+    </footer>
+
+  </div>
+  </body>
+</html>
